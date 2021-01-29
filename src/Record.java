@@ -9,7 +9,9 @@ public class Record {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
+        setPhoneNumber(phoneNumber);
+//        this.phoneNumber = getPhoneNumber();
+//        this.phoneNumber = phoneNumber;
     }
 
     public String getId() {
@@ -37,23 +39,33 @@ public class Record {
     }
 
     public String getPhoneNumber() {
-        if (isValidPhoneNumber()) {
-            return phoneNumber;
-        } else {
-         return "Not a valid phone number";
-        }
+        return phoneNumber;
+//        if (isValidPhoneNumber()) {
+//            return phoneNumber;
+//        } else {
+//            return "Not a valid phone number";
+//        }
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        if (isValidPhoneNumber(phoneNumber)) {
+            this.phoneNumber = phoneNumber;
+        } else {
+            this.phoneNumber = "Not a valid phone number";
+        }
+//        this.phoneNumber = phoneNumber;
     }
 
-    public boolean isValidPhoneNumber() {
+    public boolean isValidPhoneNumber(String phoneNumber) {
         phoneNumber = phoneNumber.replaceAll("[^0-9]", "");
         if (phoneNumber.length() == 10 || phoneNumber.length() == 11) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public String toString() {
+        return getFirstName() + " " + getLastName() + "'s phone number: " + getPhoneNumber();
     }
 }

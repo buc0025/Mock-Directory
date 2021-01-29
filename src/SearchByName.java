@@ -30,40 +30,41 @@ public class SearchByName {
             // Checks for input in map before going through csv file
             if (mapLastNamePhoneNumber.containsKey(name)) {
                 System.out.println(mapLastNamePhoneNumber.get(name));
-            } else {
-                try {
-                    BufferedReader br = new BufferedReader(new FileReader(path));
-                    br.readLine();
+                continue;
+            }
+            try {
+                BufferedReader br = new BufferedReader(new FileReader(path));
+                br.readLine();
 
-                    int numberOfLastNames = 0;
-                    int numberOfNoMatches = 0;
+                int numberOfLastNames = 0;
+                int numberOfNoMatches = 0;
 
-                    while ((line = br.readLine()) != null) {
-                        String[] values = line.split(",");
-                        String id = values[0];
-                        String firstName = values[1];
-                        String lastName = values[2];
-                        String phoneNumber = values[4];
+                while ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    String id = values[0];
+                    String firstName = values[1];
+                    String lastName = values[2];
+                    String phoneNumber = values[4];
 
-                        // Data is cached if input matches last name in csv file
-                        if (name.equals(lastName)) {
-                            record = new Record(id, firstName, lastName, phoneNumber);
-                            mapLastNamePhoneNumber.put(lastName, record.getPhoneNumber());
-                            System.out.println(record.getPhoneNumber());
-                        }
-                        if (!name.equals(lastName)) {
-                            numberOfNoMatches++;
-                        }
-                        numberOfLastNames++;
+                    // Data is cached if input matches last name in csv file
+                    if (name.equals(lastName)) {
+                        record = new Record(id, firstName, lastName, phoneNumber);
+                        mapLastNamePhoneNumber.put(lastName, record.getFirstName() + " " + record.getLastName() + "'s phone number: " + record.getPhoneNumber());
+                        System.out.println(record.toString());
+                    } else {
+                        numberOfNoMatches++;
                     }
-                    if (numberOfLastNames == numberOfNoMatches) {
-                        System.out.println("Name not found in file");
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    numberOfLastNames++;
                 }
+                if (numberOfLastNames == numberOfNoMatches) {
+                    System.out.println("Name not found in file");
+                }
+
+            } catch (FileNotFoundException e) {
+                System.out.println("Path to csv file not found");
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
